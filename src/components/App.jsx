@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
-
-const API_KEY = '38122384-f449367556dc0438355b2be02';
+import { fetchImages } from './api';
 
 export class App extends Component {
   state = {
@@ -15,33 +13,36 @@ export class App extends Component {
     loading: false,
   };
 
-  fetchImages = async () => {
-    const { query, page } = this.state;
+  handleSearchSubmit = async newQuery => {
+    this.setState({ query: newQuery, page: 1, images: [], loading: true });
 
     try {
-      this.setState({ loading: true });
-      const response = await axios.get(
-        `https://pixabay.com/api/?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
-      );
-      this.setState(prevState => ({
-        images: [...prevState.images, ...response.data.hits],
-      }));
+      const newImages = await fetchImages(newQuery, 1);
+      this.setState({ images: newImages });
     } catch (error) {
-      console.error('Error fetching images:', error);
+      console.error(error);
     } finally {
       this.setState({ loading: false });
     }
   };
 
-  handleSearchSubmit = newQuery => {
-    this.setState({ query: newQuery, page: 1, images: [] }, this.fetchImages);
-  };
+  handleLoadMore = async () => {
+    const { query, page, images } = this.state;
+    const nextPage = page + 1;
 
-  handleLoadMore = () => {
-    this.setState(
-      prevState => ({ page: prevState.page + 1 }),
-      this.fetchImages
-    );
+    this.setState({ loading: true });
+
+    try {
+      const newImages = await fetchImages(query, nextPage);
+      this.setState(prevState => ({
+        images: [...prevState.images, ...newImages],
+        page: nextPage,
+      }));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   handleImageClick = largeImageUrl => {
