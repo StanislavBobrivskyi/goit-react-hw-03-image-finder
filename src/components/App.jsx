@@ -27,7 +27,7 @@ export class App extends Component {
   };
 
   handleLoadMore = async () => {
-    const { query, page, images } = this.state;
+    const { query, page } = this.state;
     const nextPage = page + 1;
 
     this.setState({ loading: true });
