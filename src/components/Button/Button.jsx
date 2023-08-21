@@ -1,7 +1,7 @@
 import React from 'react';
-
+import { Loadbutton } from './Button.styled';
 export const Button = ({ onClick }) => (
-  <button type="button" onClick={onClick}>
+  <Loadbutton type="button" onClick={onClick}>
     Load More
-  </button>
+  </Loadbutton>
 );

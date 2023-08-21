@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import ReactModal from 'react-modal';
+import { StyledModal, Overlay } from './modal.styled';
+
+ReactModal.setAppElement('#root');
 
 export class Modal extends Component {
   componentDidMount() {
@@ -20,14 +23,18 @@ export class Modal extends Component {
     const { isOpen, onClose, largeImageUrl } = this.props;
 
     return (
-      <ReactModal
-        isOpen={isOpen}
-        onRequestClose={onClose}
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <img src={largeImageUrl} alt="" />
-      </ReactModal>
+      <StyledModal>
+        <ReactModal
+          isOpen={isOpen}
+          onRequestClose={onClose}
+          className="modal"
+          overlayClassName="overlay"
+        >
+          <Overlay onClick={onClose}>
+            <img src={largeImageUrl} alt="" />
+          </Overlay>
+        </ReactModal>
+      </StyledModal>
     );
   }
 }

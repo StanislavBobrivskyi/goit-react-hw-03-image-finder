@@ -6,6 +6,7 @@ import { Button } from './Button/Button';
 import { fetchImages } from './api';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Modal } from './Modal/Modal';
+import { AppWrapper } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -59,7 +60,7 @@ export class App extends Component {
     const { images, loading, showModal, largeImageUrl } = this.state;
 
     return (
-      <div>
+      <AppWrapper>
         <Searchbar onSubmit={this.handleSearchSubmit} />
         <ImageGallery images={images} onImageClick={this.handleImageClick} />
         {loading && <Loader />}
@@ -71,7 +72,7 @@ export class App extends Component {
           onClose={this.handleCloseModal}
           largeImageUrl={largeImageUrl}
         />
-      </div>
+      </AppWrapper>
     );
   }
 }
