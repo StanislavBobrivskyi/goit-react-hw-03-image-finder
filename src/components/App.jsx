@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
-import { ImageGallery } from './ImageGallery/ImageGallery';
+
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
 import { fetchImages } from './api';
+import { ImageGallery } from './ImageGallery/ImageGallery';
+import { Modal } from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -46,11 +48,15 @@ export class App extends Component {
   };
 
   handleImageClick = largeImageUrl => {
-    console.log('Clicked on image with URL:', largeImageUrl);
+    this.setState({ showModal: true, largeImageUrl });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
   };
 
   render() {
-    const { images, loading } = this.state;
+    const { images, loading, showModal, largeImageUrl } = this.state;
 
     return (
       <div>
@@ -60,6 +66,11 @@ export class App extends Component {
         {images.length > 0 && !loading && (
           <Button onClick={this.handleLoadMore} />
         )}
+        <Modal
+          isOpen={showModal}
+          onClose={this.handleCloseModal}
+          largeImageUrl={largeImageUrl}
+        />
       </div>
     );
   }
