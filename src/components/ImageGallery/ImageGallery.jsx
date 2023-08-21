@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageGalleryItem } from './ImageGalleryItem';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 
 export const ImageGallery = ({ images, onImageClick }) => (
   <ul>
